@@ -1,30 +1,125 @@
 <template>
-    <div id="data">
-    <li v-for= "(dat, index) in data" :key="index" :data="data">
-        <p>id: {{dat.id}} </p>
-        <p>First Name: {{dat.first_name}} </p>
-        <p>Last Name: {{dat.last_name}} </p>
-        <p>Date: {{dat.date}} </p>
-        <p>Gender: {{dat.gender}} </p>
-        
-    </li> 
-        
-    </div>
+<div id="list">
+	<div class="table-responsive table-sm">
+		<table class="table">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">Title</th>
+					<th scope="col">Content</th>
+					<th scope="col">Due Date</th>
+					<th scope="col">Checked</th>
+					<th scope="col"></th>
+					<th scope="col"></th>
+				</tr>
+			</thead>
+			<tbody>
+
+				<tr v-for= "(todo, index) in todos" :key="index" :data="todo">
+					<td scope="row">{{todo.title}}</td>
+					<td scope="row">{{todo.content}} </td>
+					<td scope="row">{{todo.due_date}} </td>
+					<td><input type="checkbox" id="checkbox" v-model="todo.checked">
+					<td scope="row"><button type="button" class="btn btn-success btn-sm">Edit</button></td>
+					<td scope="row"><button type="button" class="btn btn-danger btn-sm" v-on:click="deleteTodo">Delete</button></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div>
+		<button v-on:click="addTodo">Create Todo</button>
+		<form>
+			Title:<br>
+			<input v-model="title" name="firstname" value="Mickey">
+			<br><br>
+			Content:<br>
+			<input v-model="content" name="lastname" value="Mouse">
+			<br><br>
+			Due_date:<br>
+			<input v-model="due_date" name="lastname" value="Mouse">
+			<br><br>
+			Checked:<br>
+			<input v-model="checked" name="lastname" value="Mouse">
+			<br><br>
+			userId:<br>
+			<input v-model="userId" name="lastname" value="Mouse">
+			<br><br>
+		</form> 
+	</div>	
+</div>
+
+
+	
 </template>
 
 <script>
-    export default {
-        name: 'data',
-            data() {
-                return {
-                data :[
-                { 'id': 1, 'first_name': 'Jesse', 'last_name': 'Simmons', 'date': '2016-10-15 13:43:27', 'gender': 'Male' },
-                    { 'id': 2, 'first_name': 'John', 'last_name': 'Jacobs', 'date': '2016-12-15 06:00:53', 'gender': 'Male' },
-                    { 'id': 3, 'first_name': 'Tina', 'last_name': 'Gilbert', 'date': '2016-04-26 06:26:28', 'gender': 'Female' },
-                    { 'id': 4, 'first_name': 'Clarence', 'last_name': 'Flores', 'date': '2016-04-10 10:28:46', 'gender': 'Male' },
-                    { 'id': 5, 'first_name': 'Anne', 'last_name': 'Lee', 'date': '2016-12-06 14:38:38', 'gender': 'Female' }
-                ],
-            }
-        }
- }
+	import axios from 'axios'
+	const baseURL = "http://localhost:3000/todos"
+
+	export default {
+	name: 'list',
+	data() {
+		return {
+		todos: [],
+		title:'',
+		content:'',
+		due_date:'',
+		checked:'',
+		userId:''
+		}
+	},
+	async created() {
+		try {
+		const res = await axios.get(baseURL)
+		this.todos = res.data;
+		} catch(e) {
+		console.error(e)
+		}
+	},
+
+	methods: {
+	async addTodo() {
+	const res = await axios.post(baseURL, { title: this.title, content: this.content, 
+	due_date: this.due_date, checked: this.checked, userId: this.userId })
+
+	this.todos = [...this.todos, res.data]
+	
+
+	this.title = ''
+	this.content = ''
+	this.due_date = ''
+	this.checked = ''
+	this.userId = ''
+
+		},
+
+	async deleteTodo(){
+	const res = await axios.post(baseURL, { title: '', content: '', due_date: '', checked: '', userId: ''})
+	this.todos = [res.data]
+
+	}
+	}
+}
 </script>
+
+
+
+
+
+<style scoped>
+#list {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #6c5ce7;
+  margin-top: 60px;
+}
+
+li {
+  list-style: none;
+}
+
+h3 {
+  color: #343A40
+}
+</style>
+
