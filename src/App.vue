@@ -2,17 +2,20 @@
 	<div id="app">
 		<h1>TODO-VueCLI</h1>
 		<list />
+		<todo />
 	</div>
 </template>
 
 <script>
 import list from './components/List.vue'
+import todo from './components/CreateButton.vue'
 
 
 export default {
 	name: 'app',
 	components:{
-		list
+		list,
+		todo
 
 	}
 }
