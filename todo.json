@@ -80,6 +80,7 @@
       "content": "Lorem ipsum dolor sit amet",
       "due_date": "5/12/2019",
       "checked": false,
+<<<<<<< HEAD
       "userId": 1
     },
     {
@@ -97,6 +98,17 @@
       "checked": "1",
       "userId": "2",
       "id": 12
+=======
+      "userId": 3
+    },
+    {
+      "title": "dssd",
+      "content": "fdv",
+      "due_date": "fd",
+      "checked": "fdv",
+      "userId": "1",
+      "id": 13
+>>>>>>> 63c7d23b33fbdfaa1e417fd23a8807660ea3c3ef
     }
   ]
 }
