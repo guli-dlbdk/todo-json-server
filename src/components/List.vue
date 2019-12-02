@@ -22,7 +22,8 @@
 					<td scope="row">{{todo.due_date}} </td>
 					<td><input type="checkbox" id="checkbox" v-model="todo.checked">
 					<td scope="row">
-						<button type="button" class="btn btn-success btn-sm" v-on:click="editTodo($event,todo.id)">Edit</button>
+						<button type="button" class="btn btn-info btn-sm"  v-on:click="editForm($event,todo.id)">Edit</button>
+
 					</td>
 					<td scope="row">
 						<button type="button" class="btn btn-danger btn-sm" v-on:click="deleteTodo($event,todo.id)">Delete</button>
@@ -32,36 +33,35 @@
 			</tbody>
 		</table>
 	</div>
-
 	
 	<div>
+
 		<form>
-			<button class="btn btn-info btn-sm" v-on:click="addTodo">Create Todo</button><br>
+			<button type="button" class="btn btn-dark" v-on:click="editTodo(id)">Edit Todo</button>
+			<button type="button" class="btn btn-success" v-on:click="addTodo()">Create Todo</button><br>
+			Id:<br>
+			<input v-model="id" required>
+			<br><br>
 			Title:<br>
 			<input v-model="title" required>
 			<br><br>
 			Content:<br>
-			<input v-model="content" required>
+			<input v-model="content" >
 			<br><br>
 			Due_date:<br>
-			<input v-model="due_date" required>
+			<input v-model="due_date" >
 			<br><br>
 			Checked:<br>
-			<input v-model="checked" required>
+			<input v-model="checked" >
 			<br><br>
 			userId:<br>
-			<input v-model="userId" required>
+			<input v-model="userId" >
 			<br><br>
 		</form> 
 	</div> 
 
 </div>
 </template>
-
-
-
-
-
 
 
 
@@ -74,14 +74,18 @@
 		name: 'list',
 		data() {
 			return {
+				isCardModalActive: false,
 				todos: [],
-				todo: {},
+				todo: { },
 				id:'',
 				title:'',
 				content:'',
 				due_date:'',
 				checked:'',
 				userId:'',
+				username: '',
+				email: '',
+				password: '',
 				columns: [
 					{
 						field: 'id',
@@ -110,10 +114,6 @@
 						field: 'userId',
 						label: 'UserID',
 						numeric: true
-					},
-					{
-						field:'button',
-						label:'Delete'
 					}
 				]
 
@@ -166,42 +166,63 @@
 				// veritabanindan sil
 				try{
 					const res = await axios.delete(baseURL+'/'+id ); 
-					console.log(res,id)
+					console.log(res,id);
 					// gorsel olarak sil - componentin listesinden
 					this.todos = this.todos.filter(function(todo){
 						return todo.id != id;
 
 					});
 				}catch(error){ 
-					//console.log("silme islemi"); 
 					console.log(error);
 				}				
 			},
 
-			async editTodo(event, id){ 
-				//veritabanı güncelle
-				try{
+			async editForm(event, id){ 
+				try{//todo getir
 					const res = await axios.get(baseURL+'/'+id);
-
-					//const res = await axios.put(baseURL+'/'+id); 
-					console.log(res.data);
-					this.todos = this.todos.filter(function(todo){
-						if(todo.id == id){
-							todo.title = this.todo.title;
-							todo.content = this.todo.content;
-							todo.due_date = this.todo.due_date;
-							todo.checked = this.todo.checked
-						}
-
-					});
+					if(res.status == 200){
+						console.log("Response Todo:: ", res); 
+					}
+					//response verilerini forma yazdır
+					this.id = res.data.id;
+					this.title = res.data.title;
+					this.content = res.data.content;
+					this.due_date = res.data.due_date;
+					this.checked = res.data.checked;
+					this.userId = res.data.userId;
+					console.log("Edit Form Todo-- ", res.data); 
 				}		
 				catch(error){ 
-					//console.log("güncelleme islemi"); 
 					console.log("error");
-				}				
-			}
+				}
+			},
+			async editTodo(id){
+				try{//formda olan verileri put metoduna yolla
+					const res = await axios.put(baseURL+'/'+id, {id: this.id, title: this.title, content: this.content, 
+						due_date: this.due_date, checked: this.checked, userId: this.userId} )
+					if(res.status == 200){
+						console.log('Todo Edited', res.status);
+						//put yapılan verileri json dosyasından getTodo() ile ekrana yaz	 
+						this.getTodo();
+
+						//edit yapıldıktan sonra formu temizle
+						this.id = '';
+						this.title = '';
+						this.content = '';
+						this.due_date = '';
+						this.checked = '';
+						this.userId = '';
+					}
+				}catch(error){
+					console.log('Hata oluştu.', error)
+				}	
+			},
+
+
+
 
 		}
+	}
 </script>
 
 

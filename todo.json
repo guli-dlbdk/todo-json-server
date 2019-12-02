@@ -27,88 +27,44 @@
   ],
   "todos": [
     {
-      "id": 1,
-      "title": "Dishes1",
-      "content": "Lorem ipsum dolor sit amet",
-      "due_date": "5/12/2019",
-      "checked": false,
-      "userId": 1
-    },
-    {
-      "id": 2,
-      "title": "Dishes1",
-      "content": "Lorem ipsum dolor sit amet",
-      "due_date": "5/12/2019",
-      "checked": false,
-      "userId": 1
-    },
-    {
       "id": 3,
       "title": "Take1 ",
       "content": "Lorem ipsum dolor sit amet",
       "due_date": "1/1/2020",
-      "checked": true,
+      "checked": false,
       "userId": 1
     },
     {
       "id": 4,
-      "title": "Dishes1",
+      "title": "Dishes",
       "content": "Lorem ipsum dolor sit amet",
       "due_date": "5/12/2019",
-      "checked": false,
-      "userId": 1
-    },
-    {
-      "id": 5,
-      "title": "Dishes1",
-      "content": "Lorem ipsum dolor sit amet",
-      "due_date": "5/12/2019",
-      "checked": false,
-      "userId": 1
-    },
-    {
-      "id": 6,
-      "title": "Take1 ",
-      "content": "Lorem ipsum dolor sit amet",
-      "due_date": "1/1/2020",
       "checked": true,
       "userId": 1
     },
     {
-      "id": 9,
-      "title": "Dishes1",
+      "id": 5,
+      "title": "TEST",
       "content": "Lorem ipsum dolor sit amet",
       "due_date": "5/12/2019",
-      "checked": false,
-<<<<<<< HEAD
+      "checked": true,
       "userId": 1
     },
     {
-      "title": "test ",
-      "content": "test fsdrgbd",
+      "id": 6,
+      "title": "Todo ",
+      "content": "Todo test",
+      "due_date": "1/12/2020",
+      "checked": "false",
+      "userId": 1
+    },
+    {
+      "title": "rest",
+      "content": "rest api",
       "due_date": "1/1/2020",
       "checked": "1",
-      "userId": "3",
-      "id": 11
-    },
-    {
-      "title": "Dishes2",
-      "content": "Lorem ipsum dolor sit amet",
-      "due_date": "\t5/12/2019",
-      "checked": "1",
       "userId": "2",
-      "id": 12
-=======
-      "userId": 3
-    },
-    {
-      "title": "dssd",
-      "content": "fdv",
-      "due_date": "fd",
-      "checked": "fdv",
-      "userId": "1",
-      "id": 13
->>>>>>> 63c7d23b33fbdfaa1e417fd23a8807660ea3c3ef
+      "id": 11
     }
   ]
 }
