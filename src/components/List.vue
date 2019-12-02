@@ -1,6 +1,5 @@
 <template>
 <div id="list">
-	
 	<div class="table-responsive table-sm">
 		<table class="table">
 			<thead class="thead-dark">
@@ -14,29 +13,122 @@
 				</tr>
 			</thead>
 			<tbody>
-
 				<tr v-for= "(todo, index) in todos" :key="index" :data="todo">
 					<td scope="row" class="d-none">{{todo.id}}</td>
 					<td scope="row">{{todo.title}}</td>
 					<td scope="row">{{todo.content}} </td>
 					<td scope="row">{{todo.due_date}} </td>
-					<td><input type="checkbox" id="checkbox" v-model="todo.checked">
+					<td>
+						<input type="checkbox" class="checkbox" v-model="todo.checked">
+					</td>
 					<td scope="row">
-						<button type="button" class="btn btn-info btn-sm"  v-on:click="editForm($event,todo.id)">Edit</button>
-
+						<!-- Button trigger Edit modal -->
+						<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal"  v-on:click="editForm($event,todo.id)">Edit</button>
 					</td>
 					<td scope="row">
 						<button type="button" class="btn btn-danger btn-sm" v-on:click="deleteTodo($event,todo.id)">Delete</button>
 					</td>
-					
 				</tr>
 			</tbody>
 		</table>
 	</div>
-	
-	<div>
 
-		<form>
+
+	<!-- Modal Create Todo -->
+	<div id="addTodo">
+		<!-- Button trigger Create(add) modal -->
+		<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">Create Todo</button><br>
+		<!-- Modal -->
+		<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="addModalLabel">Create Todo</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form>
+							Title:<br>
+							<input v-model="title" required>
+							<br><br>
+							Content:<br>
+							<input v-model="content" >
+							<br><br>
+							Due_date:<br>
+							<input v-model="due_date" >
+							<br><br>
+							Checked:<br>
+							<input v-model="checked" >
+							<br><br>
+							userId:<br>
+							<input v-model="userId" >
+							<br><br>
+						</form> 
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+						<button type="button" class="btn btn-primary" aria-hidden="true" v-on:click="addTodo(id)">Kaydet</button>
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	
+	
+
+	<!-- Modal Edit Todo -->
+	<div id="editTodo">
+		<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="editModalLabel">Edit Todo</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form>
+							Id:<br>
+							<input v-model="id" required>
+							<br><br>
+							Title:<br>
+							<input v-model="title" required>
+							<br><br>
+							Content:<br>
+							<input v-model="content" >
+							<br><br>
+							Due_date:<br>
+							<input v-model="due_date" >
+							<br><br>
+							Checked:<br>
+							<input v-model="checked" >
+							<br><br>
+							userId:<br>
+							<input v-model="userId" >
+							<br><br>
+						</form> 
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+						<button type="button" class="btn btn-primary" aria-hidden="true" v-on:click="editTodo(id)">Kaydet</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+
+</div>
+	
+	
+
+		<!-- <form>
 			<button type="button" class="btn btn-dark" v-on:click="editTodo(id)">Edit Todo</button>
 			<button type="button" class="btn btn-success" v-on:click="addTodo()">Create Todo</button><br>
 			Id:<br>
@@ -57,10 +149,10 @@
 			userId:<br>
 			<input v-model="userId" >
 			<br><br>
-		</form> 
-	</div> 
+		</form>  -->
 
-</div>
+
+
 </template>
 
 
@@ -181,7 +273,7 @@
 				try{//todo getir
 					const res = await axios.get(baseURL+'/'+id);
 					if(res.status == 200){
-						console.log("Response Todo:: ", res); 
+						console.log("Response:: ", res.statusText); 
 					}
 					//response verilerini forma yazdır
 					this.id = res.data.id;
@@ -201,7 +293,8 @@
 					const res = await axios.put(baseURL+'/'+id, {id: this.id, title: this.title, content: this.content, 
 						due_date: this.due_date, checked: this.checked, userId: this.userId} )
 					if(res.status == 200){
-						console.log('Todo Edited', res.status);
+						console.log(res.statusText);
+
 						//put yapılan verileri json dosyasından getTodo() ile ekrana yaz	 
 						this.getTodo();
 
@@ -216,7 +309,7 @@
 				}catch(error){
 					console.log('Hata oluştu.', error)
 				}	
-			},
+			}
 
 
 

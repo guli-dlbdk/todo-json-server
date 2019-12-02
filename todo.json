@@ -28,18 +28,18 @@
   "todos": [
     {
       "id": 3,
-      "title": "Take1 ",
-      "content": "Lorem ipsum dolor sit amet",
-      "due_date": "1/1/2020",
-      "checked": false,
+      "title": "Edit Todo",
+      "content": "Edit Modal",
+      "due_date": "1/12/2019",
+      "checked": "",
       "userId": 1
     },
     {
       "id": 4,
-      "title": "Dishes",
+      "title": "Deneme",
       "content": "Lorem ipsum dolor sit amet",
-      "due_date": "5/12/2019",
-      "checked": true,
+      "due_date": "5/12/2029",
+      "checked": "",
       "userId": 1
     },
     {
@@ -51,20 +51,28 @@
       "userId": 1
     },
     {
-      "id": 6,
-      "title": "Todo ",
-      "content": "Todo test",
-      "due_date": "1/12/2020",
-      "checked": "false",
-      "userId": 1
-    },
-    {
-      "title": "rest",
+      "id": 11,
+      "title": "REST",
       "content": "rest api",
       "due_date": "1/1/2020",
       "checked": "1",
+      "userId": "2"
+    },
+    {
+      "title": "Modal",
+      "content": "Modal create",
+      "due_date": "1/1/2020",
+      "checked": "1",
+      "userId": "3",
+      "id": 12
+    },
+    {
+      "title": "Edit Test",
+      "content": "modal edit test",
+      "due_date": "2/2/2022",
+      "checked": "1",
       "userId": "2",
-      "id": 11
+      "id": 13
     }
   ]
 }
