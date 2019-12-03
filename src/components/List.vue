@@ -1,5 +1,12 @@
 <template>
 <div id="list">
+	<div class="btn-group" role="group" aria-label="Basic example">
+		<!-- Button trigger register modal -->
+		<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#userModal">Register</button><br>
+		<!-- Button trigger login modal -->
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Login</button><br>
+	</div>
+	
 	<div class="table-responsive table-sm">
 		<table class="table">
 			<thead class="thead-dark">
@@ -22,7 +29,7 @@
 						<input type="checkbox" class="checkbox" v-model="todo.checked">
 					</td>
 					<td scope="row">
-						<!-- Button trigger Edit modal -->
+						<!-- Button trigger edit modal -->
 						<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal"  v-on:click="editForm($event,todo.id)">Edit</button>
 					</td>
 					<td scope="row">
@@ -32,6 +39,50 @@
 			</tbody>
 		</table>
 	</div>
+
+
+	<!-- Modal Edit Todo -->
+	<div id="editTodo">
+		<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="editModalLabel">Edit Todo</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form>
+							Id:<br>
+							<input v-model="id" required>
+							<br><br>
+							Title:<br>
+							<input v-model="title" required>
+							<br><br>
+							Content:<br>
+							<input v-model="content" >
+							<br><br>
+							Due_date:<br>
+							<input v-model="due_date" >
+							<br><br>
+							Checked:<br>
+							<input v-model="checked" >
+							<br><br>
+							userId:<br>
+							<input v-model="userId" >
+							<br><br>
+						</form> 
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary" aria-hidden="true" v-on:click="editTodo(id)">Save</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
 
 
 	<!-- Modal Create Todo -->
@@ -68,8 +119,8 @@
 						</form> 
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
-						<button type="button" class="btn btn-primary" aria-hidden="true" v-on:click="addTodo(id)">Kaydet</button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-primary" aria-hidden="true" v-on:click="addTodo(id)">Save</button>
 					</div>
 					</div>
 				</div>
@@ -77,81 +128,81 @@
 		</div>
 
 
-	
-	
 
-	<!-- Modal Edit Todo -->
-	<div id="editTodo">
-		<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+	<!-- Modal Register -->
+	<div id="addUser">
+		<!-- Modal -->
+		<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="editModalLabel">Edit Todo</h5>
+						<h5 class="modal-title" id="userModalLabel">Create User</h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
 					<div class="modal-body">
-						<form>
-							Id:<br>
-							<input v-model="id" required>
-							<br><br>
-							Title:<br>
-							<input v-model="title" required>
-							<br><br>
-							Content:<br>
-							<input v-model="content" >
-							<br><br>
-							Due_date:<br>
-							<input v-model="due_date" >
-							<br><br>
-							Checked:<br>
-							<input v-model="checked" >
-							<br><br>
-							userId:<br>
-							<input v-model="userId" >
-							<br><br>
-						</form> 
+						<form @submit.prevent="register">
+							<label for="name">Name</label>
+							<div>
+								<input id="name" type="text" v-model="name" required autofocus>
+							</div>
+							<label for="email" >Email</label>
+							<div>
+								<input id="email" type="email" v-model="email" required>
+							</div>
+							<label for="password">Password</label>
+							<div>
+								<input id="password" type="password" v-model="password" required>
+							</div>
+						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
-						<button type="button" class="btn btn-primary" aria-hidden="true" v-on:click="editTodo(id)">Kaydet</button>
+						<div>
+							<button type="submit"  v-on:click="addUser">Register</button>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	
-	
+
+
+	<!-- Modal Login  -->
+	<div id="loginUser">
+		
+		<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3 class="modal-title" id="loginModalLabel">Sign in</h3>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form class="login" @submit.prevent="login">
+							<br>
+							<input required v-model="email" type="email" placeholder="Email"/>
+							<br><br>
+							<input required v-model="password" type="password" placeholder="Password"/>
+							<hr/>
+							
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" v-on:click="login($event)">Login</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+			
 
 </div>
 	
-	
-
-		<!-- <form>
-			<button type="button" class="btn btn-dark" v-on:click="editTodo(id)">Edit Todo</button>
-			<button type="button" class="btn btn-success" v-on:click="addTodo()">Create Todo</button><br>
-			Id:<br>
-			<input v-model="id" required>
-			<br><br>
-			Title:<br>
-			<input v-model="title" required>
-			<br><br>
-			Content:<br>
-			<input v-model="content" >
-			<br><br>
-			Due_date:<br>
-			<input v-model="due_date" >
-			<br><br>
-			Checked:<br>
-			<input v-model="checked" >
-			<br><br>
-			userId:<br>
-			<input v-model="userId" >
-			<br><br>
-		</form>  -->
-
-
 
 </template>
 
@@ -160,24 +211,25 @@
 <script>
 	import axios from 'axios';
 	
-	const baseURL = "http://localhost:3000/todos";
+	const baseTodoURL = "http://localhost:3000/todos";
+	const baseUserURL = "http://localhost:3000/users";
 
 	export default {    
 		name: 'list',
 		data() {
 			return {
-				isCardModalActive: false,
 				todos: [],
-				todo: { },
 				id:'',
 				title:'',
 				content:'',
 				due_date:'',
 				checked:'',
 				userId:'',
-				username: '',
+				users: [],
+				name: '',
 				email: '',
 				password: '',
+				isActive: false,
 				columns: [
 					{
 						field: 'id',
@@ -221,7 +273,7 @@
 		methods: {
 			async getTodo(){
 				try{
-					const res = await axios.get(baseURL);
+					const res = await axios.get(baseTodoURL);
 					this.todos = res.data;
 					console.log(res);
 				}catch(e){
@@ -233,7 +285,7 @@
 			async addTodo() {
 				// veritabanina ekle
 				try{
-					const res = await axios.post(baseURL, { title: this.title, content: this.content
+					const res = await axios.post(baseTodoURL, { title: this.title, content: this.content
 						, due_date: this.due_date, checked: this.checked, userId: this.userId });
 					console.log(res);
 					if(res.status != 201){
@@ -257,7 +309,7 @@
 			async deleteTodo(event, id){ 
 				// veritabanindan sil
 				try{
-					const res = await axios.delete(baseURL+'/'+id ); 
+					const res = await axios.delete(baseTodoURL+'/'+id ); 
 					console.log(res,id);
 					// gorsel olarak sil - componentin listesinden
 					this.todos = this.todos.filter(function(todo){
@@ -271,7 +323,7 @@
 
 			async editForm(event, id){ 
 				try{//todo getir
-					const res = await axios.get(baseURL+'/'+id);
+					const res = await axios.get(baseTodoURL+'/'+id);
 					if(res.status == 200){
 						console.log("Response:: ", res.statusText); 
 					}
@@ -290,7 +342,7 @@
 			},
 			async editTodo(id){
 				try{//formda olan verileri put metoduna yolla
-					const res = await axios.put(baseURL+'/'+id, {id: this.id, title: this.title, content: this.content, 
+					const res = await axios.put(baseTodoURL+'/'+id, {id: this.id, title: this.title, content: this.content, 
 						due_date: this.due_date, checked: this.checked, userId: this.userId} )
 					if(res.status == 200){
 						console.log(res.statusText);
@@ -309,12 +361,43 @@
 				}catch(error){
 					console.log('Hata oluştu.', error)
 				}	
+			},
+
+			async addUser(){
+					try{
+						const res = await axios.post(baseUserURL, { name: this.name, email: this.email, password: this.password});
+						console.log(res);
+						if(res.status != 201){
+							console.log("User oluşturulamadı"); 
+							return status; 
+						}
+						//componente ekle		
+						this.users = [...this.users, res.data];
+
+						//formu temizle
+						this.name = '';
+						this.email = '';
+						this.password = '';
+					}catch(e){
+						console.error(e);
+					}
+				},
+			async login(){
+				try{
+					const res = await axios.post(baseUserURL, {email: this.email, password: this.password});
+					console.log('data',res.data);
+					//this.todos = this.todos.filter(function(user){
+						//return user.email == email;	}
+				}catch(error){
+					console.log('hata!',error);
+				}
+				
 			}
 
 
-
-
 		}
+
+
 	}
 </script>
 
@@ -332,6 +415,9 @@ li {
   list-style: none;
 }
 h3 {
+  color: #714DD2
+}
+h2 {
   color: #343A40
 }
 </style>
