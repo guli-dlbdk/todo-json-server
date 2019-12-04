@@ -54,23 +54,17 @@
 					</div>
 					<div class="modal-body">
 						<form>
-							Id:<br>
-							<input v-model="id" required>
-							<br><br>
-							Title:<br>
+							Title<br>
 							<input v-model="title" required>
 							<br><br>
-							Content:<br>
+							Content<br>
 							<input v-model="content" >
 							<br><br>
-							Due_date:<br>
+							Due_date<br>
 							<input v-model="due_date" >
 							<br><br>
-							Checked:<br>
+							Checked<br>
 							<input v-model="checked" >
-							<br><br>
-							userId:<br>
-							<input v-model="userId" >
 							<br><br>
 						</form> 
 					</div>
@@ -386,7 +380,7 @@
 				try{
 					const res = await axios.post(baseUserURL, {email: this.email, password: this.password});
 					console.log('data',res.data);
-					//this.todos = this.todos.filter(function(user){
+					//this.users = this.users.filter(function(user){
 						//return user.email == email;	}
 				}catch(error){
 					console.log('hata!',error);
