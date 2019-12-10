@@ -25,8 +25,8 @@
 					<td scope="row">{{todo.title}}</td>
 					<td scope="row">{{todo.content}} </td>
 					<td scope="row">{{todo.due_date}} </td>
-					<td>
-						<input type="checkbox" class="checkbox" v-model="todo.checked">
+					<td scope="row">
+						<input type="checkbox" id="checkbox" v-model="todo.checked">
 					</td>
 					<td scope="row">
 						<!-- Button trigger edit modal -->
@@ -38,6 +38,7 @@
 				</tr>
 			</tbody>
 		</table>
+	
 	</div>
 
 
@@ -61,7 +62,7 @@
 							<input v-model="content" >
 							<br><br>
 							Due_date<br>
-							<input v-model="due_date" >
+							<input type="date" v-model="due_date" >
 							<br><br>
 							Checked<br>
 							<input v-model="checked" >
@@ -102,13 +103,13 @@
 							<input v-model="content" >
 							<br><br>
 							Due_date:<br>
-							<input v-model="due_date" >
+							<input type="date" v-model="due_date" >
 							<br><br>
 							Checked:<br>
 							<input v-model="checked" >
 							<br><br>
 							userId:<br>
-							<input v-model="userId" >
+							<input type="number" v-model="userId" >
 							<br><br>
 						</form> 
 					</div>
@@ -116,12 +117,39 @@
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 						<button type="button" class="btn btn-primary" aria-hidden="true" v-on:click="addTodo(id)">Save</button>
 					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Login  -->
+	<div id="loginUser">
+		
+		<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h3 class="modal-title" id="loginModalLabel">Sign in</h3>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form class="login" @submit.prevent="login">
+							<br>
+							<input required v-model="email" type="email" placeholder="Email"/>
+							<br><br>
+							<input required v-model="password" type="password" placeholder="Password"/>
+							<hr/>
+							
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" v-on:click="login(email,password)">Login</button>
 					</div>
 				</div>
 			</div>
 		</div>
-
-
+	</div>
 
 	<!-- Modal Register -->
 	<div id="addUser">
@@ -162,38 +190,6 @@
 	</div>
 
 
-	<!-- Modal Login  -->
-	<div id="loginUser">
-		
-		<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h3 class="modal-title" id="loginModalLabel">Sign in</h3>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						<form class="login" @submit.prevent="login">
-							<br>
-							<input required v-model="email" type="email" placeholder="Email"/>
-							<br><br>
-							<input required v-model="password" type="password" placeholder="Password"/>
-							<hr/>
-							
-						</form>
-					</div>
-					<div class="modal-footer">
-						<button type="submit" v-on:click="login($event)">Login</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
-			
 
 </div>
 	
@@ -217,9 +213,10 @@
 				title:'',
 				content:'',
 				due_date:'',
-				checked:'',
+				checked:'false',
 				userId:'',
 				users: [],
+				user:{},
 				name: '',
 				email: '',
 				password: '',
@@ -376,23 +373,46 @@
 						console.error(e);
 					}
 				},
-			async login(){
+
+
+
+			async login(email,password){
 				try{
-					const res = await axios.post(baseUserURL, {email: this.email, password: this.password});
-					console.log('data',res.data);
-					//this.users = this.users.filter(function(user){
-						//return user.email == email;	}
-				}catch(error){
-					console.log('hata!',error);
+
+					const res = await axios.get(baseUserURL);
+					const users = res.data;
+					//console.log('users',users);
+					
+					users.forEach(function(item){
+						//console.log('item:',item);
+						if(item.email == email && item.password == password){
+							console.log('user bulundu.', item)
+						}	
+						
+					});
+
+
+					this.email = '';
+					this.password = '';
+
+
+				}catch(e){
+					console.error('User yok', e);
+
 				}
-				
+				//var user = users.filter(function (user) {
+				// 	return (user.email == email && user.password == password);
+				// });
+				// if(user == null){
+				// 	console.log('user yok', user);
 			}
 
 
-		}
-
 
 	}
+
+}
+
 </script>
 
 

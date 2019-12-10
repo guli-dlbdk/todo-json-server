@@ -4,19 +4,28 @@
       "name": "ada",
       "email": "ada@gmail.com",
       "password": "ada",
+      "isActive": false,
       "id": 1
     },
     {
-      "name": "deniz",
-      "email": "deniz@gmail.com",
-      "password": "deniz",
+      "name": "eda",
+      "email": "eda@gmail.com",
+      "password": "eda",
+      "isActive": false,
       "id": 2
     },
     {
-      "name": "beren",
-      "email": "beren@gmail.com",
-      "password": "beren",
+      "name": "ela",
+      "email": "ela@gmail.com",
+      "password": "ela",
+      "isActive": false,
       "id": 3
+    },
+    {
+      "name": "oya",
+      "email": "oya@gmail.com",
+      "password": "oya",
+      "id": 4
     }
   ],
   "todos": [
@@ -24,7 +33,7 @@
       "id": 1,
       "title": "Edit Todo",
       "content": "Edit Modal",
-      "due_date": "1/12/2019",
+      "due_date": "2020-12-29",
       "checked": false,
       "userId": 1
     },
@@ -32,7 +41,7 @@
       "id": 2,
       "title": "Deneme",
       "content": "Lorem ipsum dolor sit amet",
-      "due_date": "5/12/2029",
+      "due_date": "2020-09-02",
       "checked": true,
       "userId": 1
     },
@@ -40,7 +49,7 @@
       "id": 3,
       "title": "TEST",
       "content": "Lorem ipsum dolor sit amet",
-      "due_date": "5/12/2019",
+      "due_date": "2021-02-06",
       "checked": true,
       "userId": 1
     },
@@ -50,7 +59,7 @@
       "content": "rest api",
       "due_date": "1/1/2020",
       "checked": true,
-      "userId": "2"
+      "userId": 2
     },
     {
       "title": "Edit Test",
@@ -64,9 +73,25 @@
       "title": "vuex",
       "content": "vuex nedir",
       "due_date": "17/12/2019",
-      "checked": "",
-      "userId": "2",
+      "checked": false,
+      "userId": 2,
       "id": 7
+    },
+    {
+      "id": 8,
+      "title": "Vue",
+      "content": "Vue tutorial",
+      "due_date": "2019-12-01",
+      "checked": "",
+      "userId": "2"
+    },
+    {
+      "title": "vuex",
+      "content": "vuex nedir",
+      "due_date": "2019-12-31",
+      "checked": false,
+      "userId": "1",
+      "id": 9
     }
   ]
 }
