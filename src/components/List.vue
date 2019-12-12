@@ -201,22 +201,22 @@
 <script>
 	import axios from 'axios';
 	
-	const baseTodoURL = "http://localhost:3000/todos";
-	const baseUserURL = "http://localhost:3000/users";
+	const baseTodoURL = 'http://localhost:3000/todos';
+	const baseUserURL = 'http://localhost:3000/users';
 
 	export default {    
 		name: 'list',
 		data() {
 			return {
 				todos: [],
-				id:'',
-				title:'',
-				content:'',
-				due_date:'',
-				checked:'false',
-				userId:'',
+				id: '',
+				title: '',
+				content: '',
+				due_date: '',
+				checked: false,
+				userId: '',
 				users: [],
-				user:{},
+				user: {},
 				name: '',
 				email: '',
 				password: '',
@@ -268,7 +268,7 @@
 					this.todos = res.data;
 					console.log(res);
 				}catch(e){
-					console.error("Todo yok");
+					console.error('Todo yok');
 
 				}
 			},
@@ -280,7 +280,7 @@
 						, due_date: this.due_date, checked: this.checked, userId: this.userId });
 					console.log(res);
 					if(res.status != 201){
-						console.log("Todo oluşturulamadı"); 
+						console.log('Todo oluşturulamadı'); 
 						return status; 
 					}
 					//componente ekle		
@@ -316,7 +316,7 @@
 				try{//todo getir
 					const res = await axios.get(baseTodoURL+'/'+id);
 					if(res.status == 200){
-						console.log("Response:: ", res.statusText); 
+						console.log('Response:: ', res.statusText); 
 					}
 					//response verilerini forma yazdır
 					this.id = res.data.id;
@@ -325,10 +325,10 @@
 					this.due_date = res.data.due_date;
 					this.checked = res.data.checked;
 					this.userId = res.data.userId;
-					console.log("Edit Form Todo-- ", res.data); 
+					console.log('Edit Form Todo-- ', res.data); 
 				}		
 				catch(error){ 
-					console.log("error");
+					console.log('error');
 				}
 			},
 			async editTodo(id){
@@ -355,57 +355,74 @@
 			},
 
 			async addUser(){
-					try{
-						const res = await axios.post(baseUserURL, { name: this.name, email: this.email, password: this.password});
-						console.log(res);
-						if(res.status != 201){
-							console.log("User oluşturulamadı"); 
-							return status; 
-						}
-						//componente ekle		
-						this.users = [...this.users, res.data];
-
-						//formu temizle
-						this.name = '';
-						this.email = '';
-						this.password = '';
-					}catch(e){
-						console.error(e);
+				try{
+					const res = await axios.post(baseUserURL, { name: this.name, email: this.email, password: this.password});
+					console.log(res);
+					if(res.status != 201){
+						console.log('User oluşturulamadı'); 
+						return status; 
 					}
-				},
+					//componente ekle		
+					this.users = [...this.users, res.data];
 
-
+					//formu temizle
+					this.name = '';
+					this.email = '';
+					this.password = '';
+				}catch(e){
+					console.error(e);
+				}
+			},
 
 			async login(email,password){
 				try{
+					const res = await axios.get(baseUserURL+'?email='+email); 
+					if(res.statusText == 'OK'){
+						console.log('res',res);
+						this.user = res.data[0];
+						console.log('user pass', this.user.password);
+						console.log('pass', password);
 
-					const res = await axios.get(baseUserURL);
-					const users = res.data;
-					//console.log('users',users);
+						if(this.user.password == password){
+							await axios.patch(baseUserURL+'/'+this.user.id,{ isActive:true });	
+							console.log('User isActive', this.user.isActive); 
+						}}		
 					
-					users.forEach(function(item){
-						//console.log('item:',item);
-						if(item.email == email && item.password == password){
-							console.log('user bulundu.', item)
-						}	
-						
-					});
-
-
-					this.email = '';
-					this.password = '';
-
-
 				}catch(e){
-					console.error('User yok', e);
+					console.error('email veya şifre yanlış', e);
 
 				}
-				//var user = users.filter(function (user) {
-				// 	return (user.email == email && user.password == password);
-				// });
-				// if(user == null){
-				// 	console.log('user yok', user);
+				this.email = '';
+				this.password = '';
+
+				
 			}
+
+			// async login(email,password){
+			// 	try{
+			// 		const res = await axios.get(baseUserURL+'?email='+ email); 
+			// 		if(res.statusText == 'OK'){
+			// 			console.log('res',res);
+			// 			this.user = res.data[0];
+			// 			console.log('res', this.user.name);
+
+			// 			if(this.user.password === password){
+			// 				await axios.patch('http://localhost:3000/users'+'/'+this.user.id,{ isActive:true });	
+			// 				console.error('User password', this.user.password); 
+			// 			}		
+			// 		}
+			// 	}catch(e){
+			// 		console.log('email veya şifre yanlış', e);
+			// 		// this.email = '';
+			// 		// this.password = '';
+			// 	}
+				
+			// }
+			// var user = users.filter(function (user) {
+			// 		return (user.email == email && user.password == password);
+			// 	});
+			// 	if(user == null){
+			// 		console.log('user yok', user);
 
 
 

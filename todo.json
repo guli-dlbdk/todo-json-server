@@ -4,7 +4,7 @@
       "name": "ada",
       "email": "ada@gmail.com",
       "password": "ada",
-      "isActive": false,
+      "isActive": true,
       "id": 1
     },
     {
@@ -18,13 +18,14 @@
       "name": "ela",
       "email": "ela@gmail.com",
       "password": "ela",
-      "isActive": false,
+      "isActive": true,
       "id": 3
     },
     {
       "name": "oya",
       "email": "oya@gmail.com",
       "password": "oya",
+      "isActive": false,
       "id": 4
     }
   ],
@@ -82,7 +83,7 @@
       "title": "Vue",
       "content": "Vue tutorial",
       "due_date": "2019-12-01",
-      "checked": "",
+      "checked": true,
       "userId": "2"
     },
     {
@@ -92,6 +93,14 @@
       "checked": false,
       "userId": "1",
       "id": 9
+    },
+    {
+      "title": "title",
+      "content": "tirlerfrewafwe",
+      "due_date": "2019-01-01",
+      "checked": false,
+      "userId": "2",
+      "id": 10
     }
   ]
 }
