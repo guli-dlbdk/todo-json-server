@@ -1,7 +1,11 @@
 <template>
 	<div id="app">
+	<!-- <img src="https://bit.ly/2LKd9fu"> -->
 	<h1>TODO Vue-CLI</h1>
-		<list />
+	<list />
+
+	
+		
 	</div>
 </template>
 

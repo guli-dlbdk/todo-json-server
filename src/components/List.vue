@@ -1,45 +1,56 @@
 <template>
 <div id="list">
-	<div class="btn-group" role="group" aria-label="Basic example">
-		<!-- Button trigger register modal -->
-		<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#userModal">Register</button><br>
-		<!-- Button trigger login modal -->
-		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Login</button><br>
+	<div id="navbar" class="navbar-menu">
+		<div class="navbar-start">
+			<div class="btn-group" role="group" aria-label="Basic example">
+				<!-- Button trigger register modal -->
+				<button v-show="!user.isActive" type="button" class="btn btn-secondary" data-toggle="modal" data-target="#userModal">Register</button><br>
+				<!-- Button trigger login modal -->
+				<button v-show="!user.isActive" type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Login</button><br>
+				<button v-show="user.isActive" type="button" class="btn btn-danger">Log out</button><br>
+			</div>
+		</div>
 	</div>
 	
-	<div class="table-responsive table-sm">
-		<table class="table">
-			<thead class="thead-dark">
-				<tr>
-					<th scope="col">Title</th>
-					<th scope="col">Content</th>
-					<th scope="col">Due Date</th>
-					<th scope="col">Checked</th>
-					<th scope="col"></th>
-					<th scope="col"></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr v-for= "(todo, index) in todos" :key="index" :data="todo">
-					<td scope="row" class="d-none">{{todo.id}}</td>
-					<td scope="row">{{todo.title}}</td>
-					<td scope="row">{{todo.content}} </td>
-					<td scope="row">{{todo.due_date}} </td>
-					<td scope="row">
-						<input type="checkbox" id="checkbox" v-model="todo.checked">
-					</td>
-					<td scope="row">
-						<!-- Button trigger edit modal -->
-						<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal"  v-on:click="editForm($event,todo.id)">Edit</button>
-					</td>
-					<td scope="row">
-						<button type="button" class="btn btn-danger btn-sm" v-on:click="deleteTodo($event,todo.id)">Delete</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	
+	<div v-show="user.isActive">
+		<div  class="table-responsive table-sm">
+			<table class="table">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">Title</th>
+						<th scope="col">Content</th>
+						<th scope="col">Due Date</th>
+						<th scope="col">Checked</th>
+						<th scope="col"></th>
+						<th scope="col"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for= "(todo, index) in todos" :key="index" :data="todo" v-show="user.id==todo.userId">
+						<td scope="row" class="d-none">{{todo.id}}</td>
+						<td scope="row">{{todo.title}}</td>
+						<td scope="row">{{todo.content}} </td>
+						<td scope="row">{{todo.due_date}} </td>
+						<td scope="row">
+							<input type="checkbox" id="checkbox" v-model="todo.checked">
+						</td>
+						<td scope="row">
+							<!-- Button trigger edit modal -->
+							<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal"  v-on:click="editForm($event,todo.id)">Edit</button>
+						</td>
+						<td scope="row">
+							<button type="button" class="btn btn-danger btn-sm" v-on:click="deleteTodo($event,todo.id)">Delete</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<!-- Button trigger Create(add) modal -->
+			<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">Create Todo</button><br>
+		
+		</div>
+		
 	</div>
+	
 
 
 	<!-- Modal Edit Todo -->
@@ -82,8 +93,7 @@
 
 	<!-- Modal Create Todo -->
 	<div id="addTodo">
-		<!-- Button trigger Create(add) modal -->
-		<button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">Create Todo</button><br>
+		
 		<!-- Modal -->
 		<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
@@ -192,8 +202,6 @@
 
 
 </div>
-	
-
 </template>
 
 
@@ -231,10 +239,12 @@
 					{
 						field: 'title',
 						label: 'Title',
+						type: String
 					},
 					{
 						field: 'content',
 						label: 'Content',
+						type: String
 					},
 					{
 						field: 'due_date',
@@ -252,8 +262,7 @@
 					}
 				]
 
-				}
-			
+				}	
 		},
 
 		created(){
@@ -266,7 +275,7 @@
 				try{
 					const res = await axios.get(baseTodoURL);
 					this.todos = res.data;
-					console.log(res);
+					//console.log(res);
 				}catch(e){
 					console.error('Todo yok');
 
@@ -333,8 +342,8 @@
 			},
 			async editTodo(id){
 				try{//formda olan verileri put metoduna yolla
-					const res = await axios.put(baseTodoURL+'/'+id, {id: this.id, title: this.title, content: this.content, 
-						due_date: this.due_date, checked: this.checked, userId: this.userId} )
+					const res = await axios.put(baseTodoURL+'/'+id, { id: this.id, title: this.title, content: this.content, 
+						due_date: this.due_date, checked: this.checked, userId: this.userId } )
 					if(res.status == 200){
 						console.log(res.statusText);
 
@@ -356,7 +365,7 @@
 
 			async addUser(){
 				try{
-					const res = await axios.post(baseUserURL, { name: this.name, email: this.email, password: this.password});
+					const res = await axios.post(baseUserURL, { name: this.name, email: this.email, password: this.password });
 					console.log(res);
 					if(res.status != 201){
 						console.log('User oluşturulamadı'); 
@@ -377,57 +386,20 @@
 			async login(email,password){
 				try{
 					const res = await axios.get(baseUserURL+'?email='+email); 
-					if(res.statusText == 'OK'){
-						console.log('res',res);
+					if(res.data.length != 0){
 						this.user = res.data[0];
-						console.log('user pass', this.user.password);
-						console.log('pass', password);
-
 						if(this.user.password == password){
-							await axios.patch(baseUserURL+'/'+this.user.id,{ isActive:true });	
-							console.log('User isActive', this.user.isActive); 
-						}}		
-					
+							this.user.isActive = true;
+							await axios.patch(baseUserURL+'/'+this.user.id, { isActive: this.user.isActive });
+							console.log('isActive:', this.user.isActive);
+						}
+					}console.log('Hatalı giriş:', email, password);
 				}catch(e){
-					console.error('email veya şifre yanlış', e);
-
+					console.error('Hata oluştu:', e);
 				}
-				this.email = '';
-				this.password = '';
-
-				
 			}
 
-			// async login(email,password){
-			// 	try{
-			// 		const res = await axios.get(baseUserURL+'?email='+ email); 
-			// 		if(res.statusText == 'OK'){
-			// 			console.log('res',res);
-			// 			this.user = res.data[0];
-			// 			console.log('res', this.user.name);
-
-			// 			if(this.user.password === password){
-			// 				await axios.patch('http://localhost:3000/users'+'/'+this.user.id,{ isActive:true });	
-			// 				console.error('User password', this.user.password); 
-			// 			}		
-			// 		}
-			// 	}catch(e){
-			// 		console.log('email veya şifre yanlış', e);
-			// 		// this.email = '';
-			// 		// this.password = '';
-			// 	}
-				
-			// }
-			// var user = users.filter(function (user) {
-			// 		return (user.email == email && user.password == password);
-			// 	});
-			// 	if(user == null){
-			// 		console.log('user yok', user);
-
-
-
 	}
-
 }
 
 </script>
