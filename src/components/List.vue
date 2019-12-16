@@ -7,7 +7,7 @@
 				<button v-show="!user.isActive" type="button" class="btn btn-secondary" data-toggle="modal" data-target="#userModal">Register</button><br>
 				<!-- Button trigger login modal -->
 				<button v-show="!user.isActive" type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Login</button><br>
-				<button v-show="user.isActive" type="button" class="btn btn-danger">Log out</button><br>
+				<button v-show="user.isActive" type="button" class="btn btn-danger" @click="logOut(user.isActive)">Log out</button><br>
 			</div>
 		</div>
 	</div>
@@ -144,7 +144,7 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<form class="login" @submit.prevent="login">
+						<form class="login" @submit.stop.prevent="login">
 							<br>
 							<input required v-model="email" type="email" placeholder="Email"/>
 							<br><br>
@@ -393,10 +393,26 @@
 							await axios.patch(baseUserURL+'/'+this.user.id, { isActive: this.user.isActive });
 							console.log('isActive:', this.user.isActive);
 						}
-					}console.log('Hatalı giriş:', email, password);
+					}
 				}catch(e){
-					console.error('Hata oluştu:', e);
+					console.error('Hata:', e);
 				}
+			},
+
+			async logOut(isActive){
+				try{
+					const res = await axios.get(baseUserURL+'?isActive='+isActive)
+					console.log('is active kim?',res.data);
+					this.users = res.data;
+					this.user.isActive = false;
+					await axios.patch(baseUserURL+'/'+this.user.id, {isActive: this.user.isActive});
+					console.log('logOut',this.user.isActive);
+			}catch(e){
+				console.log('Hata--', e);
+			}
+
+
+
 			}
 
 	}

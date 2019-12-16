@@ -4,21 +4,21 @@
       "name": "ada",
       "email": "ada@gmail.com",
       "password": "ada",
-      "isActive": true,
+      "isActive": false,
       "id": 1
     },
     {
       "name": "eda",
       "email": "eda@gmail.com",
       "password": "eda",
-      "isActive": true,
+      "isActive": false,
       "id": 2
     },
     {
       "name": "ela",
       "email": "ela@gmail.com",
       "password": "ela",
-      "isActive": true,
+      "isActive": false,
       "id": 3
     },
     {
@@ -27,18 +27,6 @@
       "password": "oya",
       "isActive": false,
       "id": 4
-    },
-    {
-      "name": "",
-      "email": "",
-      "password": "",
-      "id": 5
-    },
-    {
-      "name": "",
-      "email": "",
-      "password": "",
-      "id": 6
     }
   ],
   "todos": [
