@@ -7,12 +7,14 @@
 				<button v-show="!user.isActive" type="button" class="btn btn-secondary" data-toggle="modal" data-target="#userModal">Register</button><br>
 				<!-- Button trigger login modal -->
 				<button v-show="!user.isActive" type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">Login</button><br>
-				<button v-show="user.isActive" type="button" class="btn btn-danger" @click="logOut(user.isActive)">Log out</button><br>
+				<h1 v-show="user.isActive" type="text">{{user.name}}</h1><br>
+				<button v-show="user.isActive" type="button" class="btn btn-danger" @click="logOut(user.isActive)">Log out</button>
 			</div>
 		</div>
 	</div>
 	
 	<div v-show="user.isActive">
+
 		<div  class="table-responsive table-sm">
 			<table class="table">
 				<thead class="thead-dark">
@@ -24,6 +26,7 @@
 						<th scope="col"></th>
 						<th scope="col"></th>
 					</tr>
+
 				</thead>
 				<tbody>
 					<tr v-for= "(todo, index) in todos" :key="index" :data="todo" v-show="user.id==todo.userId">
@@ -32,14 +35,14 @@
 						<td scope="row">{{todo.content}} </td>
 						<td scope="row">{{todo.due_date}} </td>
 						<td scope="row">
-							<input type="checkbox" id="checkbox" v-model="todo.checked">
+							<input type=checkbox  v-model="todo.checked">
 						</td>
 						<td scope="row">
 							<!-- Button trigger edit modal -->
-							<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal"  v-on:click="editForm($event,todo.id)">Edit</button>
+							<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal"  @click="editForm($event,todo.id)">Edit</button>
 						</td>
 						<td scope="row">
-							<button type="button" class="btn btn-danger btn-sm" v-on:click="deleteTodo($event,todo.id)">Delete</button>
+							<button type="button" class="btn btn-danger btn-sm" @click="deleteTodo($event,todo.id)">Delete</button>
 						</td>
 					</tr>
 				</tbody>
@@ -81,8 +84,7 @@
 						</form> 
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary" aria-hidden="true" v-on:click="editTodo(id)">Save</button>
+						<button type="button" class="btn btn-primary" aria-hidden="true" data-dismiss="modal" @click="editTodo(id)">Save</button>
 					</div>
 				</div>
 			</div>
@@ -118,46 +120,48 @@
 							Checked:<br>
 							<input v-model="checked" >
 							<br><br>
-							userId:<br>
-							<input type="number" v-model="userId" >
-							<br><br>
+			
 						</form> 
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						<button type="button" class="btn btn-primary" aria-hidden="true" v-on:click="addTodo(id)">Save</button>
+						<button type="button" class="btn btn-primary" aria-hidden="true" data-dismiss="modal" @click="addTodo(user.id)">Save</button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
 	<!-- Modal Login  -->
 	<div id="loginUser">
-		
 		<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h3 class="modal-title" id="loginModalLabel">Sign in</h3>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-						</button>
+			
+
+			<div v-if="!user.isActive" class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h3 class="modal-title" id="loginModalLabel">Sign in</h3>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<form class="login" @submit.stop.prevent="login">
+								<br>
+								<input required v-model="email" type="email" placeholder="Email"/>
+								<br><br>
+								<input required v-model="password" type="password" placeholder="Password"/>
+								<hr/>
+								
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button type="submit" data-dismiss="modal" @click="login(email,password)">Login</button>
+						</div>
 					</div>
-					<div class="modal-body">
-						<form class="login" @submit.stop.prevent="login">
-							<br>
-							<input required v-model="email" type="email" placeholder="Email"/>
-							<br><br>
-							<input required v-model="password" type="password" placeholder="Password"/>
-							<hr/>
-							
-						</form>
-					</div>
-					<div class="modal-footer">
-						<button type="submit" v-on:click="login(email,password)">Login</button>
-					</div>
-				</div>
+			
 			</div>
+		
+		
 		</div>
 	</div>
 
@@ -191,7 +195,7 @@
 					</div>
 					<div class="modal-footer">
 						<div>
-							<button type="submit"  v-on:click="addUser">Register</button>
+							<button type="submit" data-dismiss="modal"  @click="addUser">Register</button>
 						</div>
 					</div>
 				</div>
@@ -229,6 +233,7 @@
 				email: '',
 				password: '',
 				isActive: false,
+				show: false,
 				columns: [
 					{
 						field: 'id',
@@ -282,11 +287,11 @@
 				}
 			},
 
-			async addTodo() {
+			async addTodo(userId) {
 				// veritabanina ekle
 				try{
 					const res = await axios.post(baseTodoURL, { title: this.title, content: this.content
-						, due_date: this.due_date, checked: this.checked, userId: this.userId });
+						, due_date: this.due_date, checked: this.checked, userId: userId });
 					console.log(res);
 					if(res.status != 201){
 						console.log('Todo oluşturulamadı'); 
@@ -300,7 +305,7 @@
 					this.content = '';
 					this.due_date = '';
 					this.checked = '';
-					this.userId = '';
+					//this.userId = '';
 				}catch(e){
 					console.error(e);
 				}
@@ -365,11 +370,9 @@
 
 			async addUser(){
 				try{
-					const res = await axios.post(baseUserURL, { name: this.name, email: this.email, password: this.password });
-					console.log(res);
-					if(res.status != 201){
-						console.log('User oluşturulamadı'); 
-						return status; 
+					const res = await axios.post(baseUserURL, { name: this.name, email: this.email, password: this.password, isActive: false });
+					if(res.data.email != 201){
+						return res.statusText; 
 					}
 					//componente ekle		
 					this.users = [...this.users, res.data];
@@ -390,8 +393,10 @@
 						this.user = res.data[0];
 						if(this.user.password == password){
 							this.user.isActive = true;
+							this.email = '';
+							this.password = '';
 							await axios.patch(baseUserURL+'/'+this.user.id, { isActive: this.user.isActive });
-							console.log('isActive:', this.user.isActive);
+							console.log('Login:', this.user.isActive);
 						}
 					}
 				}catch(e){
@@ -407,12 +412,12 @@
 					this.user.isActive = false;
 					await axios.patch(baseUserURL+'/'+this.user.id, {isActive: this.user.isActive});
 					console.log('logOut',this.user.isActive);
-			}catch(e){
-				console.log('Hata--', e);
-			}
-
-
-
+					//formu temizle
+					this.email = '';
+					this.password = '';
+				}catch(e){
+					console.log('Hata--', e);
+				}
 			}
 
 	}
@@ -438,5 +443,23 @@ h3 {
 }
 h2 {
   color: #343A40
+}
+
+.bounce-enter-active {
+	animation: bounce-in .5s;
+}
+.bounce-leave-active {
+	animation: bounce-in .5s reverse;
+}
+@keyframes bounce-in {
+	0% {
+		transform: scale(0);
+	}
+	50% {
+		transform: scale(1.5);
+	}
+	100% {
+		transform: scale(1);
+	}
 }
 </style>

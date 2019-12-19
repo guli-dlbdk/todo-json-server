@@ -3,6 +3,7 @@
 	<!-- <img src="https://bit.ly/2LKd9fu"> -->
 	<h1>TODO Vue-CLI</h1>
 	<list />
+	<modal />
 
 	
 		
@@ -11,11 +12,13 @@
 
 <script>
 	import list from './components/List.vue'
+	import modal from './components/Modal.vue'
 	
 	export default{
 		name:'app',
 		components:{
-			list
+			list,
+			modal
 		}
 	}
 </script>

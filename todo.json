@@ -27,12 +27,19 @@
       "password": "oya",
       "isActive": false,
       "id": 4
+    },
+    {
+      "name": "duru",
+      "email": "duru@gmail.com",
+      "password": "duru",
+      "id": 5,
+      "isActive": false
     }
   ],
   "todos": [
     {
       "id": 1,
-      "title": "Edit Todo",
+      "title": "Edit  ",
       "content": "Edit Modal",
       "due_date": "2020-12-29",
       "checked": false,
@@ -103,28 +110,68 @@
       "id": 10
     },
     {
-      "title": "Ela",
-      "content": "ela todo",
+      "title": "Elaaaa",
+      "content": "ela todo yap",
       "due_date": "2020-01-01",
       "checked": "",
       "userId": "3",
       "id": 11
     },
     {
-      "title": "",
-      "content": "",
+      "title": "cdc",
+      "content": "fdf",
       "due_date": "",
-      "checked": false,
-      "userId": "",
-      "id": 12
+      "checked": "falsefvfd",
+      "userId": "2",
+      "id": 14
     },
     {
-      "title": "",
-      "content": "",
+      "title": "nev",
+      "content": "nev mekan",
       "due_date": "",
       "checked": false,
-      "userId": "",
-      "id": 13
+      "userId": "2",
+      "id": 15
+    },
+    {
+      "id": 16,
+      "title": "test todo",
+      "content": "dwedwefc",
+      "due_date": "2018-01-30",
+      "checked": "1",
+      "userId": 1
+    },
+    {
+      "id": 20,
+      "title": "test",
+      "content": "ferfcerf",
+      "due_date": "2019-01-01",
+      "checked": "0",
+      "userId": "1"
+    },
+    {
+      "id": 21,
+      "title": "yazı",
+      "content": "ferfre",
+      "due_date": "2019-01-01",
+      "checked": "1",
+      "userId": "1"
+    },
+    {
+      "title": "ada",
+      "content": "adalar",
+      "due_date": "",
+      "checked": "1",
+      "userId": "4",
+      "id": 22
+    },
+    {
+      "id": 23,
+      "title": "123",
+      "content": "fvsdcv",
+      "due_date": "2019-01-31",
+      "checked": "1",
+      "userId": 1
     }
   ]
 }
